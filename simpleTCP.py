@@ -46,6 +46,7 @@ devices2 = pointToPointHelperSourceToCenter.Install(net2Nodes)
 pointToPointHelperBottleneck = PointToPointHelper()
 pointToPointHelperBottleneck.SetDeviceAttribute("DataRate", StringValue("800Kbps"))
 pointToPointHelperBottleneck.SetChannelAttribute("Delay", StringValue("5ms"))
+pointToPointHelperBottleneck.SetQueue("ns3::DropTailQueue")
 
 devices3 = NetDeviceContainer()
 devices3 = pointToPointHelperBottleneck.Install(net3Nodes)
