@@ -45,7 +45,7 @@ devices2 = pointToPointHelperSourceToCenter.Install(net2Nodes)
 
 pointToPointHelperBottleneck = PointToPointHelper()
 pointToPointHelperBottleneck.SetDeviceAttribute("DataRate", StringValue("800Kbps"))
-pointToPointHelperBottleneck.SetChannelAttribute("Delay", StringValue("2ms"))
+pointToPointHelperBottleneck.SetChannelAttribute("Delay", StringValue("5ms"))
 
 devices3 = NetDeviceContainer()
 devices3 = pointToPointHelperBottleneck.Install(net3Nodes)
@@ -84,13 +84,13 @@ sourceApp1 = ApplicationContainer()
 sourceApp1 = ftp.Install(net1Nodes.Get(0))
 
 sourceApp1.Start(Seconds(2.0))
-sourceApp1.Stop(Seconds(19.0))
+sourceApp1.Stop(Seconds(4.0))
 
 sourceApp2 = ApplicationContainer()
 sourceApp2 = ftp.Install(net2Nodes.Get(1))
 
 sourceApp2.Start(Seconds(2.0))
-sourceApp2.Stop(Seconds(19.0))
+sourceApp2.Stop(Seconds(4.0))
 
 # sink
 
