@@ -30,7 +30,7 @@ packetSinkHelper = PacketSinkHelper("ns3::TcpSocketFactory", hubLocalAddress)
 hubApp = ApplicationContainer()
 hubApp = packetSinkHelper.Install(pointToPointStarHelper.GetHub())
 hubApp.Start(Seconds(1.0))
-hubApp.Stop(Seconds(20.0))
+hubApp.Stop(Seconds(10.0))
 
 # Create On-Off Applications To Send TCP To The Hub. One On Each Spoke Node.
 onOffHelper = OnOffHelper("ns3::TcpSocketFactory", Address())
@@ -46,7 +46,7 @@ for i in range(spokeCount):
 	spokeApps.Add(onOffHelper.Install(pointToPointStarHelper.GetSpokeNode(i)))
 
 spokeApps.Start(Seconds(2.0))
-spokeApps.Stop(Seconds(19.0))
+spokeApps.Stop(Seconds(9.0))
 
 Ipv4GlobalRoutingHelper.PopulateRoutingTables()
 
