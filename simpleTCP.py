@@ -1,5 +1,5 @@
 import ns
-from ns.core import CommandLine, StringValue, UintegerValue, Seconds, Simulator
+from ns.core import CommandLine, StringValue, UintegerValue, Seconds, Simulator, PointerValue
 from ns.network import NodeContainer, DropTailQueue, NetDeviceContainer, Ipv4Address, Ipv4Mask, AddressValue, InetSocketAddress, Address, ApplicationContainer
 from ns.internet import InternetStackHelper, Ipv4AddressHelper, Ipv4GlobalRoutingHelper, Ipv4InterfaceContainer, TcpSocketFactory
 from ns.point_to_point import PointToPointHelper
@@ -44,8 +44,10 @@ devices2 = pointToPointHelperSourceToCenter.Install(net2Nodes)
 # bottleneck link
 
 pointToPointHelperBottleneck = PointToPointHelper()
-pointToPointHelperBottleneck.SetDeviceAttribute("DataRate", StringValue("800Kbps"))
+pointToPointHelperBottleneck.SetDeviceAttribute("DataRate", StringValue("5Mbps"))
+# pointToPointHelperBottleneck.SetDeviceAttribute("RecieveErrorModel", PointerValue()
 pointToPointHelperBottleneck.SetChannelAttribute("Delay", StringValue("2ms"))
+pointToPointHelperBottleneck.SetQueue("ns3::DropTailQueue")
 
 devices3 = NetDeviceContainer()
 devices3 = pointToPointHelperBottleneck.Install(net3Nodes)
@@ -84,13 +86,13 @@ sourceApp1 = ApplicationContainer()
 sourceApp1 = ftp.Install(net1Nodes.Get(0))
 
 sourceApp1.Start(Seconds(2.0))
-sourceApp1.Stop(Seconds(19.0))
+sourceApp1.Stop(Seconds(4.0))
 
 sourceApp2 = ApplicationContainer()
 sourceApp2 = ftp.Install(net2Nodes.Get(1))
 
 sourceApp2.Start(Seconds(2.0))
-sourceApp2.Stop(Seconds(19.0))
+sourceApp2.Stop(Seconds(4.0))
 
 # sink
 

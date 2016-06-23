@@ -1,7 +1,7 @@
 import ns
 from ns.point_to_point import PointToPointHelper
 from ns.point_to_point_layout import PointToPointDumbbellHelper
-from ns.core import Simulator, Seconds, UintegerValue, TimeValue, CommandLine, MilliSeconds, StringValue
+from ns.core import Simulator, Seconds, UintegerValue, TimeValue, CommandLine, MilliSeconds, StringValue, PointerValue, ObjectFactory, DoubleValue, Ptr
 from ns.internet import InternetStackHelper
 from ns.internet import Ipv4AddressHelper, Ipv4GlobalRoutingHelper
 from ns.network import Ipv4Address, Ipv4Mask, Node
@@ -13,6 +13,8 @@ command_line = CommandLine()
 command_line.Parse(sys.argv)
 
 point_to_point_helper = PointToPointHelper()
+point_to_point_helper.SetDeviceAttribute("DataRate", StringValue("5Mbps"))
+point_to_point_helper.SetChannelAttribute("Delay", StringValue("2ms"))
 point_to_point_helper_bottleneck = PointToPointHelper()
 point_to_point_helper_bottleneck.SetDeviceAttribute("DataRate", StringValue("5Mbps"))
 point_to_point_helper_bottleneck.SetChannelAttribute("Delay", StringValue("2ms"))
@@ -32,7 +34,7 @@ ipv4_address_helper1.SetBase(Ipv4Address("10.1.1.0"), Ipv4Mask("255.255.255.0"))
 ipv4_address_helper2 = Ipv4AddressHelper()
 ipv4_address_helper2.SetBase(Ipv4Address("10.2.1.0"), Ipv4Mask("255.255.255.0"))
 
-# bottlenecl
+# bottleneck
 ipv4_address_helper3 = Ipv4AddressHelper()
 ipv4_address_helper3.SetBase(Ipv4Address("10.3.1.0"), Ipv4Mask("255.255.255.0"))
 
@@ -69,6 +71,10 @@ udp_echo_client_helper.SetAttribute("Interval", TimeValue(Seconds(1.0)))
 #udp_echo_client_helper.SetAttribute("Interval", TimeValue(Seconds(0.01)))
 udp_echo_client_helper.SetAttribute("PacketSize", UintegerValue(1024))
 
+em1 = Ptr()
+em1 = CreateObjectWithAttributes("RanVar", StringValue ("ns3::UniformRandomVariable[Min=0.0,Max=1.0]"), "ErrorRate", DoubleValue (0.01));
+
+udp_echo_client_helper.SetAttribute("RecieveErrorModel", PointerValue(em1))
 client_1 = udp_echo_client_helper.Install(right_node_1)
 client_1.Start(Seconds(2.0))
 client_1.Stop(Seconds(9.0))
